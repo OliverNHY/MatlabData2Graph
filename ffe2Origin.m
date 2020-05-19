@@ -71,7 +71,11 @@ for longNameCell=ffeFiltLNames'
     writecell(resultDir,[simName,'(vPhi2D).txt'],vPhi2D);
     writecell(resultDir,[simName,'(dB3D).txt'],rcsDB3D);
     writecell(resultDir,[simName,'(3D).txt'],rcs3D);
+    
     %%%Plot 2D and 3D graph
+    clf;
+    figHd=gcf;
+    figHd.Name=simName;
     subplot(2,2,1);
     vThetaHd=plot(thetaVec,rcsDB);%Each column as a line
     setLineWidth(vThetaHd,1.5);
@@ -111,7 +115,7 @@ for longNameCell=ffeFiltLNames'
     
 %     gcf.OuterPosition=get(0,'screensize');
     set(gcf,'outerposition',get(0,'screensize'));
-    figHd=gcf;
+%     figHd=gcf;
     frame=getframe(figHd);
     imwrite(frame.cdata,[resultDir,simName,'(2D_3D).bmp']);     
     
@@ -119,3 +123,4 @@ for longNameCell=ffeFiltLNames'
     fprintf('\n## %d of %d Done.\n',count,nTxt);
 end
 disp('Program Done!');toc;
+sound(sin(2*pi*25*(1:4000)/500));
