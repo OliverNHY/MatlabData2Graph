@@ -7,7 +7,7 @@
 clear;clc;tic;
 org2dFlag=1;org3dFlag=1;
 grp2dFlag=1;grp3dFlag=1;
-ffeDir='E:\0_Program\MATLABm\MATLABData2Graph\ffeFile\';
+ffeDir='E:\ZM\0Work\3simuModel\20200416simlationModel\';
 resultDir=[ffeDir,'ffe2Origin\'];
 if  exist(resultDir,'dir')
     delete([resultDir,'\*'])
@@ -32,6 +32,7 @@ txtList=dir([txtDir,'*.txt']);
 % txtNames=txtLs(1,:);
 txtListTable=struct2table(txtList);
 txtNames=txtListTable.name;
+nTxt=length(txtNames);count=0;
 % txtNames=cat(1,txtList.name);
 for txtName=txtNames'
     txtNameCh=char(txtName);
@@ -119,5 +120,8 @@ for txtName=txtNames'
     figHd=gcf;
     frame=getframe(figHd);
     imwrite(frame.cdata,[resultDir,simName,'(2D_3D).bmp']);     
+    
+    count=count+1;
+    fprintf('\n## %d of %d Done.\n',count,nTxt);
 end
 disp('Program Done!');toc;
