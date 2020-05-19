@@ -1,9 +1,8 @@
 %Import *.ffe(monoRCS) from dir specified
 %Extract key data and save as Origin data format (2D and 3D).
 %Show and export the 2D and 3D graph.
-%Function strcell() writecell() setLinWidth()   plot3D()
-%BAT script filtLineV2 (in dir ffeDir)
-%20200419
+%Function strcell() writecell() setLinWidth()   plot3D()    filtLine()
+%20200519
 clear;clc;tic;
 org2dFlag=1;org3dFlag=1;
 grp2dFlag=1;grp3dFlag=1;
@@ -14,30 +13,25 @@ if  exist(resultDir,'dir')
 else
     mkdir(resultDir)
 end
-% filtLineV2 in ffeDir
 % Exract lines only exist numbers to txt file from ffe file
-curDir=pwd;
-cd(ffeDir);
-!filtLineV2 # ffe 
-cd(curDir);
+ffeListOb=dir([ffeDir,'*.ffe']);
+ffeFoldnames={ffeListOb.folder};
+ffeNames={ffeListOb.name};
+ffeLongNames=fullfile(ffeFoldnames,ffeNames);
+[ffeFiltFolder,ffeFiltLNames]=filtLine(ffeLongNames,'#','filtData');
 %%%%%%%%%%%%%%%%%
-
 % outPic=1;%输出图片
 % outData=1;%输出数据
 % modelName='';
 % nTheta=3;%theta角的个数,即第一列相同的数值出现的次数
-txtDir=[ffeDir,'filtLineV2_txt\'];
-txtList=dir([txtDir,'*.txt']);
-% txtLs=struct2cell(txtList);
-% txtNames=txtLs(1,:);
-txtListTable=struct2table(txtList);
-txtNames=txtListTable.name;
-nTxt=length(txtNames);count=0;
-% txtNames=cat(1,txtList.name);
-for txtName=txtNames'
-    txtNameCh=char(txtName);
-    longName=[txtDir,txtNameCh];
-    simName=txtNameCh(1:end-4);
+nTxt=length(ffeFiltLNames);count=0;
+for longNameCell=ffeFiltLNames'
+    longName=longNameCell{1};
+    [~,simName,~]=fileparts(longName);
+% for txtName=txtNames'
+%     txtNameCh=char(txtName);
+%     longName=[txtDir,txtNameCh];
+%     simName=txtNameCh(1:end-4);
     f0=simName(strfind(simName,'Fre')+3:strfind(simName,'M')-1);
     obTxt=importdata(longName);
     data=obTxt.data(:,[1,2,end]);
