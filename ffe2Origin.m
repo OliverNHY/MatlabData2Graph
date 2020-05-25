@@ -1,7 +1,7 @@
 %Import *.ffe(monoRCS) from dir specified
 %Extract key data and save as Origin data format (2D and 3D).
 %Show and export the 2D and 3D graph.
-%Function strcell() writecell() setLinWidth()   plot3D()    filtLine()
+%Function strcell() writeCellTo() setLinWidth()   plot3D()    filtLine()
 %20200519
 clear;clc;tic;
 org2dFlag=1;org3dFlag=1;
@@ -36,7 +36,7 @@ for longNameCell=ffeFiltLNames'
     obTxt=importdata(longName);
     data=obTxt.data(:,[1,2,end]);
     thetaVec=unique(data(:,1));phiVec=unique(data(:,2));
-    nT=max(size(thetaVec));nP=max(size(phiVec));
+    nT=length(thetaVec);nP=length(phiVec);
     rcs=reshape(data(:,3),[nT,nP]);%Different theta for each same column, different phi for each same row.
     rcsDB=10.*log(rcs)./log(10);
     vThetaMat=zeros(nT,2*nP);
@@ -67,10 +67,10 @@ for longNameCell=ffeFiltLNames'
     rcsDB3D=num2cell([0,phiVec';thetaVec,rcsDB]);
     rcsDB3D(1,1)={'Theta\Phi'};
     %%%Export 2D 3D data for Origin
-    writecell(resultDir,[simName,'(vTheta2D).txt'],vTheta2D);
-    writecell(resultDir,[simName,'(vPhi2D).txt'],vPhi2D);
-    writecell(resultDir,[simName,'(dB3D).txt'],rcsDB3D);
-    writecell(resultDir,[simName,'(3D).txt'],rcs3D);
+    writeCellTo(resultDir,[simName,'(vTheta2D).txt'],vTheta2D);
+    writeCellTo(resultDir,[simName,'(vPhi2D).txt'],vPhi2D);
+    writeCellTo(resultDir,[simName,'(dB3D).txt'],rcsDB3D);
+    writeCellTo(resultDir,[simName,'(3D).txt'],rcs3D);
     
     %%%Plot 2D and 3D graph
     clf;

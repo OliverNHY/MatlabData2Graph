@@ -1,11 +1,11 @@
-function writecell(dir,name,cellA)
+function writeCellTo(dir,name,cellA)
 %%There is only one data for each element in cellA
 [rs,cs]=size(cellA);
 breakFlag=1;
 fileID=fopen([dir,name],'w');
 if fileID==-1
     breakFlag=0;
-    fprintf('\n\twriteCell(): Failed to open %s\n',[dir,name]);
+    fprintf('\n\twriteCellTo(): Failed to open %s\n',[dir,name]);
 end
 indexR=1;
 while indexR~=1+rs && breakFlag
@@ -16,7 +16,7 @@ while indexR~=1+rs && breakFlag
         elseif isa(cellA{indexR,indexC},'char')
             fprintf(fileID,'%s ',cellA{indexR,indexC});
         else
-            fprintf('\n\twriteCell(): class(cellA{}) is neither Double nor Char (May be Cell)\n');
+            fprintf('\n\twriteCellTo(): class(cellA{}) is neither Double nor Char (May be Cell)\n');
             breakFlag=0;
         end
         indexC=indexC+1;
